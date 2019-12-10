@@ -1,0 +1,9 @@
+necessary:
+- rpclib at-most-once support
+
+not necessary:
+- improve lock server's thread number control(in order to avoid dead lock)
+- write better test cases
+- improve exception handle
+- improve cmake configuration
+...
