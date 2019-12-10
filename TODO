@@ -5,5 +5,6 @@ not necessary:
 - improve lock server's thread number control(in order to avoid dead lock)
 - write better test cases
 - improve exception handle
+- StatusCodes is not very proper: we compile lockservice into a static library, however user need to use StatusCodes, which doesn't exposed to user
 - improve cmake configuration
 ...
