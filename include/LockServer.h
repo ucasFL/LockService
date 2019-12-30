@@ -26,7 +26,7 @@ public:
 
     LockServer(Port d_port_, size_t thread_num_) : d_port(d_port_), thread_num(thread_num_)
     {
-        ls_impl = std::make_unique<LockServerImpl>();
+        ls_impl = std::make_unique<LockServerImpl>(thread_num);
         rs_ptr = std::make_unique<rpc::server>(d_port);
     }
 

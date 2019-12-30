@@ -4,23 +4,25 @@
 
 namespace StatusCodes
 {
-extern const int ACQUIRE_LOCK_OK;
-extern const int ACQUIRE_LOCK_ERROR;
-extern const int RELEASE_LOCK_OK;
-extern const int RELEASE_LOCK_ERROR;
+extern const int OK;
+extern const int ERROR;
+extern const int SERVER_BUSY;
 }
 
 Status LockClient::acquire(LockID lock_id, PID pid) const
 {
     try
     {
-        clt->call("acquire", lock_id, pid);
-        return StatusCodes::ACQUIRE_LOCK_OK;
+        Status ret;
+        ret = clt->call("acquire", lock_id, pid).as<Status>();
+        while (ret == StatusCodes::SERVER_BUSY)
+            ret = clt->call("acquire", lock_id, pid).as<Status>();
+        return ret;
     }
     catch (rpc::rpc_error & _)
     {
         std::cout << "Process " << pid << "acquire lock " << lock_id << "failed" << std::endl;
-        return StatusCodes::ACQUIRE_LOCK_ERROR;
+        return StatusCodes::ERROR;
     }
 }
 
@@ -28,12 +30,13 @@ Status LockClient::release(LockID lock_id, PID pid) const
 {
     try
     {
-        clt->call("release", lock_id, pid);
-        return StatusCodes::RELEASE_LOCK_OK;
+        Status ret;
+        ret = clt->call("release", lock_id, pid).as<Status>();
+        return ret;
     }
     catch (rpc::rpc_error & _)
     {
         std::cout << "Process " << pid << "release lock " << lock_id << "failed" << std::endl;
-        return StatusCodes::RELEASE_LOCK_ERROR;
+        return StatusCodes::ERROR;
     }
 }

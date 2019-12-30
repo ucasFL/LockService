@@ -8,6 +8,8 @@ include_directories(./lib/rpclib/include)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+
 set(LINK_LIB ls rpc pthread)
 
 add_subdirectory(src)
